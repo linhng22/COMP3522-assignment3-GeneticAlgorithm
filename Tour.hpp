@@ -1,0 +1,10 @@
+#ifndef LAB1TEMPLATE_TOUR_HPP
+#define LAB1TEMPLATE_TOUR_HPP
+
+
+class Tour {
+
+};
+
+
+#endif //LAB1TEMPLATE_TOUR_HPP
