@@ -19,6 +19,14 @@ public:
     [[nodiscard]] const vector<City *> &getCitiesToVisit() const;
     [[nodiscard]] size_t getSizeOfTour() const;
     static double getDistanceBetweenCity(City * city1, City *city2);
+    [[nodiscard]] double getDistanceRating() const;
+    void computeDistance();
+    friend ostream &operator<<(ostream &os, const Tour &tour);
+    friend bool operator<(const Tour &lhs, const Tour &rhs);
+    friend bool operator==(const Tour &lhs, const Tour &rhs);
+    bool containsCity(const City *OtherCity) const;
+    void swapCity(int first, int second);
+    virtual ~Tour() = default;
 };
 
 

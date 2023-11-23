@@ -10,4 +10,6 @@ add_executable(assignment2template main.cpp
         Tour.cpp
         Tour.hpp
         GeneticAlgorithms.cpp
-        GeneticAlgorithms.hpp)
+        GeneticAlgorithms.hpp
+        RandomFunction.cpp
+        RandomFunction.hpp)
