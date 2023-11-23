@@ -1,5 +1,6 @@
-//
-// Created by Anh Nguyen on 2023-11-22.
-//
-
 #include "Tour.hpp"
+
+Tour::Tour(const vector<City *>& CityList) {
+    this->cities_to_visit = CityList;
+}
+
