@@ -3,15 +3,23 @@
 
 #include <vector>
 #include "City.hpp"
+#include <iostream>
+#include <cmath>
 
 using namespace std;
 class Tour {
 private:
-    vector<City *> cities_to_visit;
+    vector<City *> CitiesToVisit;
     double FitnessRating{};
 public:
     Tour()=default;
     explicit Tour(const vector<City *>& CityList);
+    void addCityToTour(City * city);
+    City * getCityInTour(size_t index);
+    [[nodiscard]] const vector<City *> &getCitiesToVisit() const;
+    [[nodiscard]] size_t getSizeOfTour() const;
+    static double getDistanceBetweenCity(City * city1, City *city2);
 };
+
 
 #endif //LAB1TEMPLATE_TOUR_HPP
