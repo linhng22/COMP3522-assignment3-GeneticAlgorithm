@@ -9,7 +9,7 @@ add_executable(assignment2template main.cpp
         City.hpp
         Tour.cpp
         Tour.hpp
-        GeneticAlgorithms.cpp
-        GeneticAlgorithms.hpp
-        RandomFunction.cpp
-        RandomFunction.hpp)
+        Population.cpp
+        Population.hpp
+        SingletonFacade.cpp
+        SingletonFacade.hpp)
