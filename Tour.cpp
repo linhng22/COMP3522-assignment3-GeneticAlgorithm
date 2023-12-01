@@ -47,9 +47,9 @@ bool operator<(const Tour &lhs, const Tour &rhs) {
 ostream &operator<<(ostream &os, const Tour &tour) {
     for (unsigned long long i = 0; i < tour.CitiesToVisit.size(); i++) {
         if (i != tour.CitiesToVisit.size() - 1) {
-            os << *tour.CitiesToVisit[i] << "->";
+            os << tour.CitiesToVisit[i]->getName() << "->";
         } else {
-            os << *tour.CitiesToVisit[i] << endl;
+            os << tour.CitiesToVisit[i]->getName() << endl;
         }
     }
     return os;

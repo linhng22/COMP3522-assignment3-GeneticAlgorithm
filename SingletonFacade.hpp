@@ -4,6 +4,7 @@
 #include <vector>
 #include "City.hpp"
 #include "Tour.hpp"
+#include "Population.hpp"
 
 
 class SingletonFacade {
@@ -16,6 +17,8 @@ public:
     }
     SingletonFacade(const SingletonFacade &) = delete;
     SingletonFacade &operator=(const SingletonFacade &) = delete;
+
+    void run();
 
     ~SingletonFacade() = default;
 };

@@ -10,8 +10,8 @@ private:
     string name;
     double x;
     double y;
-    const double UPPER_BOUND = 0;
-    const double LOWER_BOUND = 1000;
+    const double UPPER_BOUND = 1000;
+    const double LOWER_BOUND = 0;
 public:
     City(std::string name, double x, double y);
     [[nodiscard]] const string &getName() const;

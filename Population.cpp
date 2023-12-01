@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <random>
+#include <sstream>
 
 using namespace std;
 
@@ -61,29 +62,74 @@ void Population::selectingSets(vector<Tour *> &setA, vector<Tour *> &setB, const
     vector<size_t> indices(original.size());
     iota(indices.begin(), indices.end(), 0);
     shuffle(indices.begin(), indices.end(), gen);
+
     for (size_t i = 0; i < SIZE_OF_SETS && i < original.size(); ++i) {
         ((i % 2 == 0) ? setA : setB).push_back(original[indices[i]]);
     }
 }
 
-void Population::crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGen) const {
-    for (size_t i = 0; i < PopulationSize - 1; ++i) {
-        size_t index = rand() % eliteA->getSizeOfTour();
+void Population::crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGen) {
+//    for (size_t i = 0; i < PopulationSize - 1; ++i) {
+//        size_t index = rand() % eliteA->getSizeOfTour();
+        random_device rd;
+        mt19937 generator(rd()); //rd creates random seed
+        uniform_int_distribution<> distribution(0, eliteA->getSizeOfTour());
+        size_t index = distribution(generator); //pick a random index
+
         Tour *childTour = new Tour();
 
+        //copy all cities whose indices are up to and including the random index from tourA
         for (size_t a = 0; a < index; ++a) {
             childTour->addCityToTour(eliteA->getCityInTour(a));
         }
 
+        //copy the remaining cities from tourB that haven't been copied from tourA
         for (size_t b = 0; b < eliteB->getSizeOfTour(); ++b) {
             City *cityB = eliteB->getCityInTour(b);
             if (!childTour->containsCity(cityB)) {
                 childTour->addCityToTour(cityB);
             }
         }
+
+        //mutate the new tour
+        uniform_real_distribution<> distribution1(0, 100);
+        for (size_t i = 1; i < childTour->getSizeOfTour(); ++i) {
+            double random = distribution1(generator);
+            if (random < MUTATION_RATE) {
+                childTour->swapCity(i, i + 1);
+            }
+        }
+
         childTour->computeDistance();
-        nextGen.push_back(childTour);
+    nextGen.push_back(childTour);
+//    }
+}
+
+vector<City *> Population::openAndReadFile() {
+    vector<City *> cities;
+    fstream myFile;
+    string line;
+    string name;
+    double x;
+    double y;
+
+    myFile.open("../cities.txt", ios::in);
+
+    if (!myFile.is_open()) {
+        cerr << "Can not open file" << endl;
+        exit(1);
+    } else {
+        while (getline(myFile, line)) {
+            if (!line.empty()) {
+                istringstream iss{line};
+                iss >> name >> x >> y;
+                City *c = new City(name, x, y);
+                cities.push_back(c);
+            }
+        }
+        myFile.close();
     }
+    return cities;
 }
 
 
