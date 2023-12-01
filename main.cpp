@@ -1,4 +1,4 @@
-//Student1: Linh Nguyen (StudentID: A01313185)
+//Student1: Khanh Linh Nguyen (StudentID: A01313185)
 //Student2: Anh Nguyen (StudentID: A01282003)
 
 #include <iostream>
