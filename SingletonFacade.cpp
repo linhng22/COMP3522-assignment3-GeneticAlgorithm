@@ -62,11 +62,18 @@ void SingletonFacade::run() {
 
         //delete non-elite tours in crosses ?
         for (size_t i = 0; i < crosses.size(); ++i) {
-            if (crosses[i] != elite) delete crosses[i];
+            if (crosses[i] != elite && crosses[i] != originalElite) delete crosses[i];
         }
 
         iterationNum+=1;
     }
-
+    cout << "--- FINISHED ALGORITHM ---" << endl
+         << "Total iterations: " << iterationNum << endl
+         << "Original elite:" << endl
+         << "Distance: " << originalElite->getDistanceRating() << endl << *originalElite << endl
+         << "Best elite: " << endl
+         << "Distance: " << elite->getDistanceRating() << endl << *elite << endl
+         << "Improvement factor reached!" << endl
+         << "Improvement factor: " << originalFitness/fitness << endl;
 }
 

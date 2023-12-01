@@ -40,7 +40,6 @@ public:
     static void crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGen) ;
 
     static vector<City *> openAndReadFile();
-
 };
 
 

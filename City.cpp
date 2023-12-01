@@ -5,6 +5,7 @@
 
 City::City(string name, double x, double y) : name(std::move(name)){
     try {
+        // Check if x and y are in the limit range.
         if(x >= LOWER_BOUND && x <= UPPER_BOUND && y>= LOWER_BOUND && y <= UPPER_BOUND){
             this->x = x;
             this->y = y;
