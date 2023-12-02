@@ -105,33 +105,6 @@ void Population::crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGe
 //    }
 }
 
-vector<City *> Population::openAndReadFile() {
-    vector<City *> cities;
-    fstream myFile;
-    string line;
-    string name;
-    double x;
-    double y;
-
-    myFile.open("../cities.txt", ios::in);
-
-    if (!myFile.is_open()) {
-        cerr << "Can not open file" << endl;
-        exit(1);
-    } else {
-        while (getline(myFile, line)) {
-            if (!line.empty()) {
-                istringstream iss{line};
-                iss >> name >> x >> y;
-                City *c = new City(name, x, y);
-                cities.push_back(c);
-            }
-        }
-        myFile.close();
-    }
-    return cities;
-}
-
 
 
 

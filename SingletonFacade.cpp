@@ -3,7 +3,8 @@
 
 void SingletonFacade::run() {
     //Create a master list of cities, each city has a unique name and a random set of coordinates
-    vector <City *> cities = Population::openAndReadFile();
+//    vector <City *> cities = Population::openAndReadFile();
+    vector<City *> cities = Population::createCities(CITIES_IN_TOUR);
 
     //create a population of tours
     vector<Tour *> population = Population::createPopulation(cities, cities.size());
@@ -60,7 +61,7 @@ void SingletonFacade::run() {
                  << "Improvement over base: " << originalFitness / fitness << "\n" << endl;
         }
 
-        //delete non-elite tours in crosses ?
+        //delete non-elite tours in population
         for (size_t i = 0; i < crosses.size(); ++i) {
             if (crosses[i] != elite && crosses[i] != originalElite) delete crosses[i];
         }

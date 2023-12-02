@@ -39,7 +39,6 @@ public:
     static void selectingSets(vector<Tour *> &setA, vector<Tour *> &setB, const vector<Tour *> &original);
     static void crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGen) ;
 
-    static vector<City *> openAndReadFile();
 };
 
 
