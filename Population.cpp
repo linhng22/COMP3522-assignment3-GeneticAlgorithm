@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 void Population::clear_cin() {
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
@@ -95,4 +94,23 @@ void Population::crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGe
     }
     childTour->computeDistance();
     nextGen.push_back(childTour);
+}
+
+void Population::mutateTour(Tour *tour) {
+    vector<double> mutation;
+    for (size_t index = 1; index < tour-> getSizeOfTour() - 1; ++index) {
+        mutation.push_back((double) rand() / (double)RAND_MAX);
+    }
+    for (size_t index = 1; index < tour-> getSizeOfTour() - 2; ++index) {
+        if (mutation.at(index) <= MUTATION_RATE) {
+            swapCity1(const_cast<vector<City *> &>(tour->getCitiesToVisit()), index, index + 1);
+        }
+    }
+
+}
+
+void Population::swapCity1(vector<City *> &cities, size_t index1, size_t index2) {
+    City *temp = cities.at(index1);
+    cities.at(index1) = cities.at(index2);
+    cities.at(index2) = temp;
 }

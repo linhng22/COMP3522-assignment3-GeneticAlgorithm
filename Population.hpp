@@ -17,6 +17,9 @@
 #define SIZE_OF_SETS 10
 #define MUTATION_RATE 15
 #define IMPROVEMENT_FACTOR 2
+#define DEFAULT_ONE = 1
+#define DEFAULT_ZERO = 0
+#define DEFAULT_HUNDRED = 100
 
 
 class Population {
@@ -24,8 +27,8 @@ private:
     int CitiesInTour{};
     int PopulationSize{};
     typedef vector<Tour>::iterator tourIt;
-
     vector<Tour *> tours;
+
 public:
     static void clear_cin();
 
@@ -38,6 +41,9 @@ public:
     static Tour *findElite(vector<Tour *> *population);
     static void selectingSets(vector<Tour *> &setA, vector<Tour *> &setB, const vector<Tour *> &original);
     static void crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGen);
+    void mutateTour(Tour *tour);
+
+    static void swapCity1(vector<City *> &cities, size_t index1, size_t index2);
 };
 
 
