@@ -6,10 +6,6 @@
 
 using namespace std;
 
-void Population::clear_cin() {
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(),'\n');
-}
 
 vector<Tour *> Population::createPopulation(std::vector<City *> CitiesToVisit, int PopulationSize) {
     vector<Tour *> population;
@@ -69,7 +65,7 @@ void Population::selectingSets(vector<Tour *> &setA, vector<Tour *> &setB, const
 
 void Population::crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGen) {
     random_device rd;
-    mt19937 generator(rd()); //rd creates random seed
+    mt19937 generator(rd());
     uniform_int_distribution<> distribution(0, eliteA->getSizeOfTour());
     size_t index = distribution(generator); //pick a random index
     Tour *childTour = new Tour();
@@ -84,33 +80,20 @@ void Population::crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGe
             childTour->addCityToTour(cityB);
         }
     }
-    //mutate the new tour
-    uniform_real_distribution<> distribution1(0, 100);
-    for (size_t i = 1; i < childTour->getSizeOfTour(); ++i) {
-        double random = distribution1(generator);
-        if (random < MUTATION_RATE) {
-            childTour->swapCity(i, i + 1);
-        }
-    }
+
     childTour->computeDistance();
     nextGen.push_back(childTour);
 }
 
 void Population::mutateTour(Tour *tour) {
-    vector<double> mutation;
-    for (size_t index = 1; index < tour-> getSizeOfTour() - 1; ++index) {
-        mutation.push_back((double) rand() / (double)RAND_MAX);
-    }
-    for (size_t index = 1; index < tour-> getSizeOfTour() - 2; ++index) {
-        if (mutation.at(index) <= MUTATION_RATE) {
-            swapCity1(const_cast<vector<City *> &>(tour->getCitiesToVisit()), index, index + 1);
+    random_device rd;
+    mt19937 generator(rd());
+    uniform_real_distribution<> distribution1(DEFAULT_ZERO, DEFAULT_HUNDRED);
+    for (size_t i = 1; i < tour->getSizeOfTour(); ++i) {
+        double random = distribution1(generator);
+        if (random < MUTATION_RATE) {
+            tour->swapCity(i, i + 1);
         }
     }
-
 }
 
-void Population::swapCity1(vector<City *> &cities, size_t index1, size_t index2) {
-    City *temp = cities.at(index1);
-    cities.at(index1) = cities.at(index2);
-    cities.at(index2) = temp;
-}

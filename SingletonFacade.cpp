@@ -4,7 +4,6 @@
 
 void SingletonFacade::run() {
     //Create a master list of cities, each city has a unique name and a random set of coordinates
-//    vector <City *> cities = Population::openAndReadFile();
     vector<City *> cities = Population::createCities(CITIES_IN_TOUR);
 
     //create a population of tours
@@ -41,11 +40,20 @@ void SingletonFacade::run() {
             Tour *eliteA = Population::findElite(&setA); //find elite tour in set A
             Tour *eliteB = Population::findElite(&setB); //find elite tour in set B
 
-            //4. Cross 2 parents (eliteA and eliteB), merge the result into new population (Crosses)
+            //Cross 2 parents (eliteA and eliteB), merge the result into new population (Crosses)
             Population::crossParents(eliteA, eliteB, crosses);
         }
 
-        //4. Find the new elite in the new population
+        //4. Replace tours in population with tours in crosses
+        population.clear();
+        population = crosses;
+
+        //5. Mutate new merged tour in population
+        for (size_t i = DEFAULT_ONE; i < population.size(); ++i) {
+            Population::mutateTour(population[i]);
+        }
+
+        //6. Find the new elite in the new population
         Tour * newElite = Population::findElite(&crosses);
         cout << "Iteration: " << iterationNum << endl;
         if (newElite->getDistanceRating() < fitness) {
@@ -62,13 +70,10 @@ void SingletonFacade::run() {
                  << "Improvement over base: " << originalFitness / fitness << "\n" << endl;
         }
 
-        //delete non-elite tours in population
-        for (size_t i = 0; i < crosses.size(); ++i) {
-            if (crosses[i] != elite && crosses[i] != originalElite) delete crosses[i];
-        }
-
         iterationNum+=1;
     }
+
+    //Print the final result
     cout << "--- FINISHED ALGORITHM ---" << endl
          << "Total iterations: " << iterationNum << endl
          << "Original elite:" << endl
