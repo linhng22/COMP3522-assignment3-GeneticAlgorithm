@@ -68,39 +68,31 @@ void Population::selectingSets(vector<Tour *> &setA, vector<Tour *> &setB, const
     }
 }
 
-void Population::crossParents(Tour *eliteA, Tour *eliteB) {
-        random_device rd;
-        mt19937 generator(rd()); //rd creates random seed
-        uniform_int_distribution<> distribution(0, eliteA->getSizeOfTour());
-        size_t index = distribution(generator); //pick a random index
-         Tour childTour;
-        //copy all cities whose indices are up to and including the random index from tourA
-        for (size_t a = 0; a < index; ++a) {
-            childTour.addCityToTour(eliteA->getCityInTour(a));
-        }
-
-        //copy the remaining cities from tourB that haven't been copied from tourA
-        for (size_t b = 0; b < eliteB->getSizeOfTour(); ++b) {
-            City *cityB = eliteB->getCityInTour(b);
-            if (!childTour.containsCity(cityB)) {
-                childTour.addCityToTour(cityB);
-            }
-        }
-        childTour.computeDistance();
-}
-
-
-void Population::mutateTour(vector<Tour> &tours){
+void Population::crossParents(Tour *eliteA, Tour *eliteB, vector<Tour *> &nextGen) {
     random_device rd;
-    mt19937 generator(rd());
-    uniform_real_distribution<> distribution(0, 100);
-    for (size_t i = 1; i < tours.size(); ++i) {
-        double random = distribution(generator);
-        if (random < MUTATION_RATE) {
-            // Mutate only if the random number is equal to MUTATION_RATE
-            tours[i].swapCity(i, i + 1);
+    mt19937 generator(rd()); //rd creates random seed
+    uniform_int_distribution<> distribution(0, eliteA->getSizeOfTour());
+    size_t index = distribution(generator); //pick a random index
+    Tour *childTour = new Tour();
+    //copy all cities whose indices are up to and including the random index from tourA
+    for (size_t a = 0; a < index; ++a) {
+        childTour->addCityToTour(eliteA->getCityInTour(a));
+    }
+    //copy the remaining cities from tourB that haven't been copied from tourA
+    for (size_t b = 0; b < eliteB->getSizeOfTour(); ++b) {
+        City *cityB = eliteB->getCityInTour(b);
+        if (!childTour->containsCity(cityB)) {
+            childTour->addCityToTour(cityB);
         }
     }
+    //mutate the new tour
+    uniform_real_distribution<> distribution1(0, 100);
+    for (size_t i = 1; i < childTour->getSizeOfTour(); ++i) {
+        double random = distribution1(generator);
+        if (random < MUTATION_RATE) {
+            childTour->swapCity(i, i + 1);
+        }
+    }
+    childTour->computeDistance();
+    nextGen.push_back(childTour);
 }
-
-
