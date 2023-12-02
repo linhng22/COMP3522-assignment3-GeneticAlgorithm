@@ -1,4 +1,5 @@
 #include "SingletonFacade.hpp"
+#include "algorithm"
 
 
 void SingletonFacade::run() {
